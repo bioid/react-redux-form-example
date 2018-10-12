@@ -37,7 +37,7 @@ class RemoteSubmitForm extends React.Component {
       and redux-form will merge with the other props at the top level.
     */
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} class="bordered">
         <Field name="firstName" type="text" component={renderField} label="First Name" props={fieldProps}/>
         <Field name="lastName" type="text" component={renderField} label="Last Name" props={fieldProps}/>
         <Field name="email" type="email" component={renderField} label="Email" props={fieldProps}/>

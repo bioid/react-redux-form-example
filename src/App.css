@@ -1,3 +1,8 @@
+.flexcontainer {
+  display: flex;
+  flex-direction: row;
+}
+
 .peoplegrid {
   display: grid;
   grid-template-columns: repeat(12, minmax(min-content, 1fr));
@@ -25,4 +30,8 @@ section {
 
 .selected {
   background: grey;
+}
+
+.bordered {
+  border: 1px solid black;
 }

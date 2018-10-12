@@ -15,11 +15,9 @@ class App extends Component {
   
   render() {
     return (
-      <div>
+      <div class="flexcontainer">
         <PeopleGrid />
-        <section>
-          <ViewEditPerson />
-        </section>
+        <ViewEditPerson />
       </div>
     );
   }
