@@ -4,8 +4,12 @@ import submit from './submit'
 import { connect } from 'react-redux';
 import { toggleEditing } from "../actions/people";
 import RemoteSubmitButton from './RemoteSubmitButton';
+
 const renderField = ({ input, label, type, meta: { touched, error }, editing }) => {
   /*
+   This function takes in all of the associated props for a Field,
+   and returns some JSX similar to a render function.
+
    The `editing` key we are destructuring here is the result of passing `fieldProps`
    to the `props` attribute when declaring the Field below.
    This `editing` variable is then what we use to decide whether to
@@ -81,6 +85,8 @@ function mapStateToProps(state) {
   return { 
     person, 
     initialValues: person, // props.initialValues is used by redux-form to populate the form
+                           // this works for us since the keys on our people objects
+                           // match up with the `name` attributes on our form Fields.
     editing: state.people.editing,
     personSelected: state.people.personSelected
   };
@@ -88,7 +94,7 @@ function mapStateToProps(state) {
 
 const connectedReduxForm = reduxForm({
     form: 'remoteSubmit',  // a unique identifier for this form
-    onSubmit: submit,       // submit function must be passed to onSubmit
+    onSubmit: submit,      // submit function must be passed to onSubmit
     validate,
     enableReinitialize: true // When set to true, the form will reinitialize every time the initialValues
 })(RemoteSubmitForm)

@@ -31,9 +31,7 @@ class PeopleGrid extends React.Component {
           </div>
         </React.Fragment>
     )});
-    let headerCells;
-    if (this.props.people.length > 0) {
-      headerCells = (
+    let headerCells = (
         <React.Fragment>
           <div className="cell header id">id</div>
           <div className="cell header firstName">First Name</div>
@@ -41,7 +39,7 @@ class PeopleGrid extends React.Component {
           <div className="cell header email">Email</div>
         </React.Fragment>
       );
-    }
+    
     return (
         <div className="peoplegrid">
           {headerCells}
