@@ -40,7 +40,7 @@ export const fetchPeople = function() {
   return function(dispatch) {
       dispatch(fetchPeopleRequest());
       return getAllPeople()
-          .then(People => dispatch(fetchPeopleSuccess(People)))
+          .then(people => dispatch(fetchPeopleSuccess(people)))
           .catch(error => dispatch(fetchPeopleError(error)));
   }
 };

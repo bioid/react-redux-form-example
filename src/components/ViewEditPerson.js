@@ -2,7 +2,8 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import submit from './submit'
 import { connect } from 'react-redux';
-
+import { toggleEditing } from "../actions/people";
+import RemoteSubmitButton from './RemoteSubmitButton';
 const renderField = ({ input, label, type, meta: { touched, error }, editing }) => {
   /*
    The `editing` key we are destructuring here is the result of passing `fieldProps`
@@ -22,26 +23,38 @@ const renderField = ({ input, label, type, meta: { touched, error }, editing }) 
   );
 }
 
-const RemoteSubmitForm = (props) => {
-  const { error, handleSubmit } = props
-  let fieldProps = { editing: props.editing };
-  /*
-    We'll use this `fieldProps` object to pass the current editing state
-    into each field. It will be passed through the `props` attribute, 
-    and redux-form will merge with the other props at the top level.
-  */
-  return (
-    <form onSubmit={handleSubmit}>
-      <Field name="firstName" type="text" component={renderField} label="First Name" props={fieldProps}/>
-      <Field name="lastName" type="text" component={renderField} label="Last Name" props={fieldProps}/>
-      <Field name="email" type="email" component={renderField} label="Email" props={fieldProps}/>
+class RemoteSubmitForm extends React.Component {
+  toggleEditing() {
+    this.props.dispatch(toggleEditing());
+  }
 
-      {error && <strong>{error}</strong>}
-      <div>
-        No submit button in the form. The submit button below is a separate unlinked component.
-      </div>
-    </form>
-  )
+  render() {
+    const { error, handleSubmit } = this.props;
+    let fieldProps = { editing: this.props.editing };
+    /*
+      We'll use this `fieldProps` object to pass the current editing state
+      into each field. It will be passed through the `props` attribute, 
+      and redux-form will merge with the other props at the top level.
+    */
+    return (
+      <form onSubmit={handleSubmit}>
+        <Field name="firstName" type="text" component={renderField} label="First Name" props={fieldProps}/>
+        <Field name="lastName" type="text" component={renderField} label="Last Name" props={fieldProps}/>
+        <Field name="email" type="email" component={renderField} label="Email" props={fieldProps}/>
+  
+        {error && <strong>{error}</strong>}
+  
+        {this.props.personSelected !== null && (
+              <button type="button" onClick={e => this.toggleEditing()}>
+                {this.props.editing ? "Cancel" : "Edit"}
+              </button>
+        )}
+
+        {this.props.editing && <RemoteSubmitButton />}
+
+      </form>
+    )
+  }
 }
 
 function validate(formProps) {  
@@ -68,7 +81,8 @@ function mapStateToProps(state) {
   return { 
     person, 
     initialValues: person, // props.initialValues is used by redux-form to populate the form
-    editing: state.people.editing 
+    editing: state.people.editing,
+    personSelected: state.people.personSelected
   };
 }
 
