@@ -12,8 +12,9 @@ const renderField = ({ input, label, type, meta: { touched, error }, editing }) 
 
    The `editing` key we are destructuring here is the result of passing `fieldProps`
    to the `props` attribute when declaring the Field below.
-   This `editing` variable is then what we use to decide whether to
-   show an input or just the value (input.value).
+
+   This `editing` variable is what we then use to decide whether to
+   show an input or just the value (`input.value`).
   */
   let inputElement = <input {...input} placeholder={label} type={type}/>;
   return (
@@ -21,6 +22,16 @@ const renderField = ({ input, label, type, meta: { touched, error }, editing }) 
       <label>{label}</label>
       <div>
         { editing ? inputElement : input.value }
+        {/*
+          What's going on with this && stuff below?
+          It's "short-circuiting": 
+          https://codeburst.io/javascript-short-circuit-conditionals-bbc13ac3e9eb
+
+          First `touched` is evaluted: If it is truthy, we continue and 
+          evaluate `error`. If `error` is truthy, the last operand is evaluated,
+          and a <span> is always going to be truthy, so that is what the entire
+          expression evaluates to (kind of like a return value).
+        */}
         { touched && error && <span>{ error }</span>}
       </div>
     </div>
@@ -47,7 +58,7 @@ class RemoteSubmitForm extends React.Component {
         <Field name="email" type="email" component={renderField} label="Email" props={fieldProps}/>
   
         {error && <strong>{error}</strong>}
-  
+
         {this.props.personSelected !== null && (
               <button type="button" onClick={e => this.toggleEditing()}>
                 {this.props.editing ? "Cancel" : "Edit"}
