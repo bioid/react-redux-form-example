@@ -12,8 +12,7 @@ class App extends Component {
     this.props.dispatch(fetchPeople());
   }
 
-  personClicked(event, id) {
-    //console.log(`person clicked, ${id}`)
+  personClicked(id) {
     this.props.dispatch(personSelected(id));
   }
 
@@ -22,12 +21,12 @@ class App extends Component {
   }
 
   toggleEditing() {
-    this.props.dispatch(toggleEditing())
+    this.props.dispatch(toggleEditing());
   }
 
   render() {
     const people = this.props.people.map((x,i) => (
-      <div key={x.id} onClick={ (e) => this.personClicked(e, x.id) } className={this.selected(x.id)}>
+      <div key={x.id} onClick={ (e) => this.personClicked(x.id) } className={this.selected(x.id)}>
         {x.firstName} 
         {x.lastName} 
         {x.id} 
