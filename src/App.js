@@ -12,7 +12,6 @@ class App extends Component {
     this.props.dispatch(fetchPeople());
   }
 
-  
   render() {
     return (
       <div class="flexcontainer">
@@ -23,12 +22,4 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    people: state.people.people,
-    personSelected: state.people.personSelected,
-    editing: state.people.editing
-  };
-}
-
-export default connect(mapStateToProps)(App);
+export default connect()(App);

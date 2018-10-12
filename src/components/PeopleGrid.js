@@ -8,14 +8,25 @@ class PeopleGrid extends React.Component {
     this.props.dispatch(personSelected(id));
   }
 
-  selected(id) {
-    return id === this.props.personSelected ? "selected" : "";
-  }
-
   render() {
     const peopleCells = this.props.people.map((x, i) => {
+      /*
+        We use `selected` below to determine whether or not the current set of
+        cells corresponds to the currently selected person, and if so, add the 
+        appropriate class so that we get the gray highlights on the whole row. 
+      */
       let selected = this.props.personSelected === i ? 'selected' : '';
       return (
+        /*
+          A note on React.Fragment:
+          Normally, JSX elements should either consist of a single element,
+          or multiple elements wrapped in a single element at the top level.
+          Since we're returning siblings, and we don't want to wrap these divs
+          in another div (that would break the grid), we use React.Fragment.
+
+          See the docs for more on fragments:
+          https://reactjs.org/docs/fragments.html
+        */
         <React.Fragment>
           <div className={`cell id ${selected}`} onClick={e => this.personClicked(x.id)}>
             {x.id}
