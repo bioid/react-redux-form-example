@@ -7,7 +7,7 @@ import RemoteSubmitButton from "./components/RemoteSubmitButton";
 
 class App extends Component {
   componentDidMount() {
-    // dispatch an action to fetch our data from 
+    // dispatch an action to fetch our data from
     // the backend and populate the store
     this.props.dispatch(fetchPeople());
   }
@@ -17,34 +17,56 @@ class App extends Component {
   }
 
   selected(id) {
-    return id === this.props.personSelected ? 'selected' : '';
+    return id === this.props.personSelected ? "selected" : "";
   }
 
   toggleEditing() {
     this.props.dispatch(toggleEditing());
   }
-
   render() {
-    const people = this.props.people.map((x,i) => (
-      <div key={x.id} onClick={ (e) => this.personClicked(x.id) } className={this.selected(x.id)}>
-        {x.firstName} 
-        {x.lastName} 
-        {x.id} 
-        {x.email}
-      </div>
-    ));
-    
+    const peopleCells = this.props.people.map((x, i) => {
+      let selected = this.props.personSelected === i ? 'selected' : '';
+      return (
+        <React.Fragment>
+          <div className={`cell id ${selected}`} onClick={e => this.personClicked(x.id)}>
+            {x.id}
+          </div>
+          <div className={`cell firstName ${selected}`} onClick={e => this.personClicked(x.id)}>
+            {x.firstName}
+          </div>
+          <div className={`cell lastName ${selected}`} onClick={e => this.personClicked(x.id)}>
+            {x.lastName}
+          </div>
+          <div className={`cell email ${selected}`} onClick={e => this.personClicked(x.id)}>
+            {x.email}
+          </div>
+        </React.Fragment>
+    )});
+    let headerCells;
+    if (this.props.people.length > 0) {
+      headerCells = (
+        <React.Fragment>
+          <div className="cell header id">id</div>
+          <div className="cell header firstName">First Name</div>
+          <div className="cell header lastName">Last Name</div>
+          <div className="cell header email">Email</div>
+        </React.Fragment>
+      );
+    }
     return (
       <div>
-        <section>
-          { people }
-        </section>
+        <div className="peoplegrid">
+          {headerCells}
+          {peopleCells}
+        </div>
         <section>
           <EditPersonForm />
-          { (this.props.personSelected !== null) && 
-            <button onClick={e => this.toggleEditing()}>{this.props.editing ? 'Cancel' : 'Edit'}</button> 
-          }
-          { this.props.editing && <RemoteSubmitButton /> }
+          {this.props.personSelected !== null && (
+            <button onClick={e => this.toggleEditing()}>
+              {this.props.editing ? "Cancel" : "Edit"}
+            </button>
+          )}
+          {this.props.editing && <RemoteSubmitButton />}
         </section>
       </div>
     );
