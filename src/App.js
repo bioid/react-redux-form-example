@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
-import ViewEditPerson from "./components/ViewEditPerson";
 import { connect } from "react-redux";
 import { fetchPeople } from "./actions/people";
 import PeopleGrid from "./components/PeopleGrid";
+import ViewEditPerson from "./components/ViewEditPerson";
 
 class App extends Component {
   componentDidMount() {
@@ -13,13 +13,26 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div class="flexcontainer">
-        <PeopleGrid />
-        <ViewEditPerson />
-      </div>
-    );
+    if (!this.props.loadingPeople)
+      return (
+        <div className="flexcontainer">
+          <PeopleGrid />
+          <ViewEditPerson />
+        </div>
+      );
+    else 
+      return (
+        <div>
+          Loading data...
+        </div>
+      )
   }
 }
 
-export default connect()(App);
+function mapStateToProps(state) {
+  return {
+    loadingPeople: state.people.loading
+  }
+}
+
+export default connect(mapStateToProps)(App);

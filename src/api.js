@@ -15,5 +15,13 @@ function getAllPeople() {
     );
 }
 
-
-export { submit, getAllPeople };
+function updatePerson(values) {
+  return new Promise((resolve, reject) => {
+    let person = people.find(p => p.id === values.id),
+        idx = people.indexOf(person),
+        newPerson = Object.assign({}, person, values);
+    people.splice(idx, 1, newPerson);
+    return resolve({ok:true});
+  });
+}
+export { submit, getAllPeople, updatePerson };

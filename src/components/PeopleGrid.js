@@ -27,7 +27,7 @@ class PeopleGrid extends React.Component {
           See the docs for more on fragments:
           https://reactjs.org/docs/fragments.html
         */
-        <React.Fragment>
+        <React.Fragment key={x.id}>
           <div className={`cell id ${selected}`} onClick={e => this.personClicked(x.id)}>
             {x.id}
           </div>

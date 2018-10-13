@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   people: [],
-  loading: false,
+  loading: true,
   error: null,
   personSelected: null,
   editing: false
